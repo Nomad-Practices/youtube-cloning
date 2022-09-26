@@ -1,5 +1,6 @@
 import express from "express";
 import { log } from "console";
+import morgan from "morgan";
 
 const app = express();
 const PORT = 4000;
@@ -24,6 +25,9 @@ const privateMiddleware = ({ url }, res, next) => {
 
 // global middleware를 만들 때, .use 메서드를 사용한다.
 // 호출한 줄 이후에 위치한 임의의 request들에 대해서 적용된다.
+
+// mw를 직접 만들 수도 있지만 morgan과 같은 external mw를 다운받아서 사용할 수도 있다~
+app.use(morgan("dev"));
 app.use(logger, privateMiddleware);
 
 // 보통 mw와 별도로 request에 대한 응답을 전송하는 마지막 콜백함수를 controller라고 부른다.
