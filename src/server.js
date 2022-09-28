@@ -1,4 +1,4 @@
-import express from "express";
+import express, { application } from "express";
 import { log } from "console";
 import morgan from "morgan";
 import { globalRouter, videoRouter, userRouter } from "./routers";
@@ -42,11 +42,24 @@ app.use("/videos", videoRouter);
 // mw와 다르게 보통 next 메서드를 사용하지 않는다.
 // 첫 번째 인자인 path도 route라고도 부른다.
 // controller 이전까지 일련의 mw들을 나열하면 해당 mw들은 그 route를 처리할 때만 사용된다.
-app.get("/", (req, res) => {
-  return res.end();
-});
-app.get("/protected", (req, res) => {
-  return res.send("Welcome to private lounge");
-});
+// app.get("/", (req, res) => {
+//   return res.end();
+// });
+// app.get("/protected", (req, res) => {
+//   return res.send("Welcome to private lounge");
+// });
 
+// template engine은 다음과 같이 지정할 수 있다.
+// express에서는 default로 "process.cwd() + /views"에 위치한 .pug 파일들을 탐색한다.
+// 여기서 process.cwd()는 node를 실행하는 파일 즉, package.json이 위치한 폴더(/)를 가리킨다.
+// pug의 장점들을 나열하면 다음과 같다.
+// 1. template으로 html 코드를 간결하게 작성할 수 있다.
+// 2. #{...} 안에 js 코드를 작성할 수 있다.
+// 3. partial을 include하여 다른 template을 재사용할 수 있다.
+// 4. extends 키워드와 block 키워드로 다른 template을 상속받아 확장할 수 있다.
+// 5. .pug에서 사용할 js 변수를 controller에서 전달할 수 있다.
+app.set("view engine", "pug");
+app.set("views", process.cwd() + "/src/views");
 app.listen(PORT, () => log("✅ Server listening to port 4000"));
+
+// 적절한 partial과 block을 만드는 것은 재사용 가능한 vue 컴포넌트를 만드는 것과 같다.

@@ -1,11 +1,14 @@
 export const trending = (req, res) => {
-  return res.send("TRENDING");
+  // .pug template을 렌더링하면서 변수를 전달할 수 있는 영역은 바로 controller이다!!
+  return res.render("home", {
+    pageTitle: "Home",
+  });
 };
 export const see = (req, res) => {
-  return res.send("SEE VIDEO");
+  return res.render("watch");
 };
 export const edit = (req, res) => {
-  return res.send("EDIT VIDEO");
+  return res.render("edit");
 };
 export const search = (req, res) => {
   return res.send("SEARCH VIDEO");
