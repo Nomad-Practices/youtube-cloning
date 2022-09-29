@@ -56,8 +56,11 @@ app.use("/videos", videoRouter);
 // 1. template으로 html 코드를 간결하게 작성할 수 있다.
 // 2. #{...} 안에 js 코드를 작성할 수 있다.
 // 3. partial을 include하여 다른 template을 재사용할 수 있다.
-// 4. extends 키워드와 block 키워드로 다른 template을 상속받아 확장할 수 있다.
+// 4. extends 키워드와 block 키워드로 다른 template을 상속받아(.h처럼 복사하여) 확장할 수 있다. => block은 일종의 Vue의 slot 역할을 한다.
 // 5. .pug에서 사용할 js 변수를 controller에서 전달할 수 있다.
+// 6. conditionals로 conditional rendering이 가능하다.
+// 7. iteration으로 list rendering이 가능하고 빈 iterable(배열이나 객체)에 대해서 분기처리가 가능하다.
+// 8. mixin => 외부 데이터로 binding할 수 있는 partial => UI Component~~!!!
 app.set("view engine", "pug");
 app.set("views", process.cwd() + "/src/views");
 app.listen(PORT, () => log("✅ Server listening to port 4000"));
