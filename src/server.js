@@ -28,6 +28,8 @@ const privateMiddleware = ({ url }, res, next) => {
 // 호출한 줄 이후에 위치한 임의의 request들에 대해서 적용된다.
 // mw를 직접 만들 수도 있지만 morgan과 같은 external mw를 다운받아서 사용할 수도 있다~
 app.use(morgan("dev"));
+// express에서 form을 사용하기 위해서는 아래와 같은 조건이 필요하다!
+app.use(express.urlencoded());
 
 // 라우터 => url들을 prefix(root)별로 그룹화하여 독립적으로 관리할 수 있다.
 // 클라이언트가 root로 시작하는 url을 요청하면 root에 대응되는 router에 controller와 mw가 존재한다.

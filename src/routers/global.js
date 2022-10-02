@@ -9,6 +9,5 @@ const global = express.Router();
 global.get("/", trending);
 global.get("/join", join);
 global.get("/login", login);
-global.get("/search", search);
 
 export default global;

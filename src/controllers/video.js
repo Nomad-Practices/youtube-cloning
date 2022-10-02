@@ -1,15 +1,10 @@
-const fakeUser = {
-  username: "jason",
-  loggedIn: false,
-};
-
-const videos = [
+let videos = [
   {
     title: "First Video",
     rating: 5,
     comments: 2,
     createdAt: "2 minutes ago",
-    views: 59,
+    views: 1,
     id: 1,
   },
   {
@@ -18,7 +13,7 @@ const videos = [
     comments: 2,
     createdAt: "2 minutes ago",
     views: 59,
-    id: 1,
+    id: 2,
   },
   {
     title: "Third Video",
@@ -26,7 +21,7 @@ const videos = [
     comments: 2,
     createdAt: "2 minutes ago",
     views: 59,
-    id: 1,
+    id: 3,
   },
 ];
 
@@ -34,22 +29,44 @@ export const trending = (req, res) => {
   // .pug template을 렌더링하면서 변수를 전달할 수 있는 영역은 바로 controller이다!!
   return res.render("home", {
     pageTitle: "Home",
-    fakeUser,
     videos,
   });
 };
-export const see = (req, res) => {
-  return res.render("watch");
+export const watch = (req, res) => {
+  const { id } = req.params;
+  const video = videos.find((v) => v.id === +id);
+  return res.render("watch", {
+    pageTitle: `Watching ${video.title}`,
+    video,
+  });
 };
-export const edit = (req, res) => {
-  return res.render("edit");
+export const getEdit = (req, res) => {
+  const { id } = req.params;
+  const video = videos.find((v) => v.id === +id);
+  return res.render("edit", {
+    pageTitle: `Editting ${video.title}`,
+    video,
+  });
 };
-export const search = (req, res) => {
-  return res.send("SEARCH VIDEO");
+export const postEdit = (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  videos.find((v) => v.id === +id).title = title;
+  return res.redirect(`/videos/${id}`);
 };
-export const upload = (req, res) => {
-  return res.send("UPLOAD VIDEO");
+export const getUpload = (req, res) => {
+  return res.render("upload", {
+    pageTitle: "Upload",
+  });
 };
-export const remove = (req, res) => {
-  return res.send("REMOVE VIDEO");
+export const postUpload = (req, res) => {
+  videos.push({
+    title: req.body.title,
+    rating: 0,
+    comments: 0,
+    createdAt: "NOW",
+    views: 0,
+    id: videos.length + 1,
+  });
+  return res.redirect("/");
 };

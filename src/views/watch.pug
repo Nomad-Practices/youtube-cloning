@@ -1,4 +1,6 @@
 extends base.pug
-// 주석은 이렇게!
 block content
-    h1 Watch Video
+    h3 #{video.views} #{video.views === 1 ? "view" : "views"}
+    // 앞에 '/'를 붙이면 absolute url이고 안붙이면 직전 상위 url에 대한 relative url이 된다
+    // => 현재 /hello/world/3에 있다면 href의 relative url은 /hello/world를 기준으로 한다.
+    a(href=`${video.id}/edit`) Edit Video &rarr;
