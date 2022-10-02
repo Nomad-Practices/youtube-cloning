@@ -2,6 +2,5 @@ extends base.pug
 
 block content 
     form(method="POST")
-        // form을 다룰 때, input에는 반드시 name attr이 붙어야 한다.
         input(name="title" placeholder="Title", requried, type="text")
         input(type="submit", value="Upload video")

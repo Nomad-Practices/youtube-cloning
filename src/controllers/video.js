@@ -26,7 +26,6 @@ let videos = [
 ];
 
 export const trending = (req, res) => {
-  // .pug template을 렌더링하면서 변수를 전달할 수 있는 영역은 바로 controller이다!!
   return res.render("home", {
     pageTitle: "Home",
     videos,
