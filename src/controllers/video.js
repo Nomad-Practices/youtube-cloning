@@ -2,7 +2,9 @@ import Video from "../models/Video.js";
 
 export const home = async (req, res) => {
   try {
-    const videos = await Video.find({});
+    const videos = await Video.find({}).sort({
+      createdAt: "desc",
+    });
     res.render("home", {
       pageTitle: "Home",
       videos,
@@ -11,21 +13,48 @@ export const home = async (req, res) => {
     return res.render("server-error");
   }
 };
-export const watch = (req, res) => {
+export const watch = async (req, res) => {
   const { id } = req.params;
+  const video = await Video.findById(id);
+  if (video === null) {
+    return res.render("404", {
+      pageTitle: "video not found",
+    });
+  }
   return res.render("watch", {
-    pageTitle: `Watching`,
+    pageTitle: video.title,
+    video,
   });
 };
-export const getEdit = (req, res) => {
+export const getEdit = async (req, res) => {
   const { id } = req.params;
+  const video = await Video.findById(id);
+  if (video === null) {
+    return res.render("404", {
+      pageTitle: "video not found",
+    });
+  }
   return res.render("edit", {
-    pageTitle: `Editting`,
+    pageTitle: `Edit [${video.title}]`,
+    video,
   });
 };
-export const postEdit = (req, res) => {
+export const postEdit = async (req, res) => {
   const { id } = req.params;
-  const { title } = req.body;
+  const hasVideo = await Video.exists({
+    _id: id,
+  });
+  if (!hasVideo) {
+    return res.render("404", {
+      pageTitle: "video not found",
+    });
+  }
+  const { title, description, hashtags } = req.body;
+  await Video.findByIdAndUpdate(id, {
+    title,
+    description,
+    hashtags: Video.formatHashtags(hashtags),
+  });
   return res.redirect(`/videos/${id}`);
 };
 export const getUpload = (req, res) => {
@@ -33,6 +62,43 @@ export const getUpload = (req, res) => {
     pageTitle: "Upload",
   });
 };
-export const postUpload = (req, res) => {
+export const postUpload = async (req, res) => {
+  const { title, description, hashtags } = req.body;
+  try {
+    await Video.create({
+      title,
+      description,
+      hashtags: Video.formatHashtags(hashtags),
+    });
+    return res.redirect("/");
+  } catch (error) {
+    return res.render("upload", {
+      pageTitle: "Upload",
+      errorMessage: error._message,
+    });
+  }
+};
+export const deleteVideo = async (req, res) => {
+  const { id } = req.params;
+  await Video.findByIdAndDelete(id);
   return res.redirect("/");
+};
+export const search = async (req, res) => {
+  const { keyword } = req.query;
+  let videos = [];
+  if (keyword) {
+    // 검색필터 같은 경우 아래 mongoDB 문서 참조
+    // https://www.mongodb.com/docs/manual/reference/operator/query/
+    videos = await Video.find({
+      title: {
+        $regex: new RegExp(keyword, "i"),
+        // $regex: new RegExp(`${keyword}$`, "i"),
+        // $regex: new RegExp(`^${keyword}`, "i"),
+      },
+    });
+  }
+  return res.render("search", {
+    pageTitle: "Search",
+    videos,
+  });
 };

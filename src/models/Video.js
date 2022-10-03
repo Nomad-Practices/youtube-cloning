@@ -1,14 +1,41 @@
 import mongoose from "mongoose";
 
-const vieoSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  createdAt: Date,
-  hashtags: [{ type: String }],
+const videoSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true,
+    maxLength: 100,
+  },
+  description: {
+    type: String,
+    required: true,
+    trim: true,
+    maxLength: 100,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  hashtags: [
+    {
+      type: String,
+    },
+  ],
   meta: {
-    views: Number,
-    rating: Number,
+    views: {
+      type: Number,
+      default: 0,
+    },
+    rating: {
+      type: Number,
+      default: 0,
+    },
   },
 });
 
-export default mongoose.model("Video", vieoSchema);
+videoSchema.static("formatHashtags", (h) => {
+  return h.split(",").map((h) => (h.startsWith("#") ? h : "#" + h));
+});
+
+export default mongoose.model("Video", videoSchema);
