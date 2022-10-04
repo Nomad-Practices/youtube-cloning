@@ -1,4 +1,7 @@
-extends base.pug
+extends base
+
+block header
+    include partials/nav
 
 block content 
     if errorMessage 

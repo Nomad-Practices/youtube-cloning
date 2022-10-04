@@ -10,14 +10,14 @@ export const home = async (req, res) => {
       videos,
     });
   } catch {
-    return res.render("server-error");
+    return res.status(500).render("server-error");
   }
 };
 export const watch = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
   if (video === null) {
-    return res.render("404", {
+    return res.status(404).render("404", {
       pageTitle: "video not found",
     });
   }
@@ -30,7 +30,7 @@ export const getEdit = async (req, res) => {
   const { id } = req.params;
   const video = await Video.findById(id);
   if (video === null) {
-    return res.render("404", {
+    return res.status(404).render("404", {
       pageTitle: "video not found",
     });
   }
@@ -72,7 +72,7 @@ export const postUpload = async (req, res) => {
     });
     return res.redirect("/");
   } catch (error) {
-    return res.render("upload", {
+    return res.status(400).render("upload", {
       pageTitle: "Upload",
       errorMessage: error._message,
     });
