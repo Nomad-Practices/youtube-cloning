@@ -68,6 +68,7 @@ export const postLogin = async (req, res) => {
       errMsg: "Wrong password!",
     });
   }
+  // 로그인한 클라이언트의 세션 초기화
   req.session.loggedIn = true;
   req.session.user = user;
   return res.redirect("/");
