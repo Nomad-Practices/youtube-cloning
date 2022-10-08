@@ -1,0 +1,16 @@
+extends base
+
+block header 
+    include partials/nav
+
+block content
+    if errMsg
+        span=errMsg
+    form(method="POST")
+        input(name="userName" type="text" required placeholder="username")
+        input(name="password" type="password" required placeholder="password")
+        input(type="submit" value="Login")
+    hr
+    div 
+        span Don't have an account?  
+        a(href="/join") Create Now now &rarr;

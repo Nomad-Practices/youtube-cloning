@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
 
 export const getJoin = (req, res) => {
   return res.render("join", {
@@ -22,14 +23,21 @@ export const postJoin = async (req, res) => {
       errMsg: "This userName/email is already taken!",
     });
   }
-  await User.create({
-    name,
-    email,
-    userName,
-    password,
-    location,
-  });
-  return res.redirect("/login");
+  try {
+    await User.create({
+      name,
+      email,
+      userName,
+      password,
+      location,
+    });
+    return res.redirect("/login");
+  } catch (error) {
+    return res.status(400).render("join", {
+      pageTitle: "Join",
+      errMsg: error._message,
+    });
+  }
 };
 export const edit = (req, res) => {
   return res.send("EDIT USER");
@@ -37,8 +45,32 @@ export const edit = (req, res) => {
 export const remove = (req, res) => {
   return res.send("REMOVE USER");
 };
-export const login = (req, res) => {
-  return res.send("LOGIN USER");
+export const getLogin = (req, res) => {
+  return res.render("login", {
+    pageTitle: "Login",
+  });
+};
+export const postLogin = async (req, res) => {
+  const { userName, password } = req.body;
+  const user = await User.findOne({
+    userName,
+  });
+  if (!user) {
+    return res.status(400).render("login", {
+      pageTitle: "Login",
+      errMsg: "Sorry, it seems like you're not registered",
+    });
+  }
+  const isPwMatch = await bcrypt.compare(password, user.password);
+  if (!isPwMatch) {
+    return res.status(400).render("login", {
+      pageTitle: "Login",
+      errMsg: "Wrong password!",
+    });
+  }
+  req.session.loggedIn = true;
+  req.session.user = user;
+  return res.redirect("/");
 };
 export const logout = (req, res) => {
   return res.send("LOGOUT USER");
