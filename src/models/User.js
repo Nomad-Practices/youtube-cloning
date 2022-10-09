@@ -14,13 +14,19 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true,
   },
   name: {
     type: String,
     required: true,
   },
   location: {
+    type: String,
+  },
+  githubLoginOnly: {
+    type: Boolean,
+    default: false,
+  },
+  avatarUrl: {
     type: String,
   },
 });

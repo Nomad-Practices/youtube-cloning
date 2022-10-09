@@ -15,8 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
-    resave: true,
-    saveUninitialized: false, // 초기화된 세션들만 sessionStore에 저장한다(보통 로그인할 때)
+    resave: false,
+    saveUninitialized: false, // 초기화된(req.session에 새로운 key/value가 추가된) 세션들만 sessionStore에 저장 즉, 쿠키를 전달한다.
     store: MongoStore.create({
       mongoUrl: process.env.DB_URL,
     }),
