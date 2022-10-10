@@ -2,16 +2,16 @@ nav
     ul 
         if loggedIn
             li 
-                a(href="/logout") Logout 
+                a(href="/users/edit") Edit Profile
             li 
-                a(href="/myprofile") Hello~! #{loggedInUser.name}
+                a(href="/logout") Logout 
+            li
+                a(href="/videos/upload") Upload Video
         else
             li
                 a(href="/join") Join
             li 
                 a(href="/login") Login
-        li
-            a(href="/videos/upload") Upload Video
         li
             a(href="/") Home
         li

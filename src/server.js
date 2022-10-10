@@ -2,7 +2,7 @@ import express from "express";
 import session from "express-session";
 import morgan from "morgan";
 import { rootRouter, videoRouter, userRouter } from "./routers";
-import locals from "./middlewares/locals";
+import { locals } from "./middlewares";
 import MongoStore from "connect-mongo";
 
 const app = express();
