@@ -1,6 +1,7 @@
 import locals from "./locals.js";
 import protect from "./protect.js";
 import publicOnly from "./publicOnly.js";
-import uploadFile from "./uploadFile.js";
+import uploadAvatar from "./uploadAvatar.js";
+import uploadVideo from "./uploadVideo.js";
 
-export { locals, protect, publicOnly, uploadFile };
+export { locals, protect, publicOnly, uploadAvatar, uploadVideo };

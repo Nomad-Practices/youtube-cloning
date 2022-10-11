@@ -1,10 +1,14 @@
 import Video from "../../models/Video";
 
 export default async (req, res) => {
-  const { title, description, hashtags } = req.body;
+  const {
+    body: { title, description, hashtags },
+    file,
+  } = req;
   try {
     await Video.create({
       title,
+      ...(file && { videoUrl: file.path }),
       description,
       hashtags: Video.formatHashtags(hashtags),
     });
