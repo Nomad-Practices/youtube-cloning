@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/index.js"
+    "predev": "brew services start mongodb-community@6.0",
+    "dev": "nodemon --exec babel-node src/index.js",
+    "db:stop": "brew services stop mongodb-community@6.0"
   },
   "repository": {
     "type": "git",
