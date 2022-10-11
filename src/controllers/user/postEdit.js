@@ -6,6 +6,7 @@ export default async (req, res) => {
       user: { _id },
     },
     body: { name, email, userName, location },
+    file,
   } = req;
   const updatedUser = await User.findByIdAndUpdate(
     _id,
@@ -14,6 +15,7 @@ export default async (req, res) => {
       email,
       userName,
       location,
+      ...(file && { avatarUrl: file.path }),
     },
     {
       new: true,
