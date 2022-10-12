@@ -36,6 +36,11 @@ const videoSchema = new mongoose.Schema({
       default: 0,
     },
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "User",
+  },
 });
 
 videoSchema.static("formatHashtags", (h) => {
