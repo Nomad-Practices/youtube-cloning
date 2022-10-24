@@ -4,9 +4,26 @@ const muteBtn = document.getElementById("mute");
 const volumeRange = document.getElementById("volume");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
+const timeline = document.getElementById("timeline");
+const fullScreenBtn = document.getElementById("fullScreen");
+const videoContainer = document.getElementById("videoContainer");
+const videoControls = document.getElementById("videoControls");
 
 let volumeG = 0.5;
 video.volume = volumeG;
+
+let controlsTimeout = null;
+let controlsMovementTimeout = null;
+
+function formatTime(sec) {
+  return new Date(sec * 1000).toISOString().substring(11, 19);
+}
+function showControls() {
+  videoControls.classList.add("showing");
+}
+function hideControls() {
+  videoControls.classList.remove("showing");
+}
 
 playBtn.addEventListener("click", (event) => {
   video.paused ? video.play() : video.pause();
@@ -23,10 +40,12 @@ video.addEventListener("play", (event) => {
   playBtn.innerText = "Play";
 });
 video.addEventListener("loadedmetadata", () => {
-  totalTime.innerText = Math.floor(video.duration);
+  totalTime.innerText = formatTime(Math.floor(video.duration));
+  timeline.max = Math.floor(video.duration);
 });
 video.addEventListener("timeupdate", () => {
-  currentTime.innerText = Math.floor(video.currentTime);
+  currentTime.innerText = formatTime(Math.floor(video.currentTime));
+  timeline.value = Math.floor(video.currentTime);
 });
 volumeRange.addEventListener("input", (event) => {
   const {
@@ -38,4 +57,35 @@ volumeRange.addEventListener("input", (event) => {
   }
   volumeG = value;
   video.volume = value;
+});
+timeline.addEventListener("input", (event) => {
+  const {
+    target: { value },
+  } = event;
+  video.currentTime = value;
+});
+fullScreenBtn.addEventListener("click", () => {
+  const fullScreen = document.fullscreenElement;
+  if (fullScreen) {
+    document.exitFullscreen();
+    fullScreenBtn.innerText = "Enter Full Screen";
+  } else {
+    videoContainer.requestFullscreen();
+    fullScreenBtn.innerText = "Exit Full Screen";
+  }
+});
+video.addEventListener("mousemove", () => {
+  if (controlsTimeout) {
+    clearTimeout(controlsTimeout);
+    controlsTimeout = null;
+  }
+  if (controlsMovementTimeout) {
+    clearTimeout(controlsMovementTimeout);
+    controlsMovementTimeout = null;
+  }
+  showControls();
+  controlsMovementTimeout = setTimeout(() => hideControls, 4000);
+});
+video.addEventListener("mouseleave", () => {
+  controlsTimeout = setTimeout(() => hideControls, 3000);
 });
