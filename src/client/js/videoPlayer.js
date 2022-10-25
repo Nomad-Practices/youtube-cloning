@@ -89,3 +89,8 @@ video.addEventListener("mousemove", () => {
 video.addEventListener("mouseleave", () => {
   controlsTimeout = setTimeout(() => hideControls, 3000);
 });
+video.addEventListener("ended", async () => {
+  await fetch(`/api/videos/${videoContainer.dataset.id}/views`, {
+    method: "POST",
+  });
+});
