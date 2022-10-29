@@ -4,6 +4,7 @@ import morgan from "morgan";
 import { rootRouter, videoRouter, userRouter, apiRouter } from "./routers";
 import { locals } from "./middlewares";
 import MongoStore from "connect-mongo";
+import flash from "express-flash";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(
   })
 );
 app.use(locals);
+app.use(flash);
 
 app.use("/", rootRouter);
 app.use("/users", userRouter);

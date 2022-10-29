@@ -5,6 +5,8 @@ html(lang="ko")
         link(rel="stylesheet" href="https://unpkg.com/mvp.css@1.11/mvp.css")
         link(rel="stylesheet" href="/assets/css/styles.css")
     body
+        if messages.error
+            span=messages.error
         header
             h1=pageTitle
             include partials/nav

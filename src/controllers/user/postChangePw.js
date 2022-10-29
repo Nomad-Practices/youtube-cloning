@@ -29,5 +29,6 @@ export default async (req, res) => {
   // 대응되는 세션에도 동일하게 적용해야 한다.
   // 이유: 위에서 기존 pw를 세션정보에서 조회하기 때문이다.
   req.session.user.password = user.password;
+  req.flash("info", "Password updated");
   return res.redirect("/logout");
 };

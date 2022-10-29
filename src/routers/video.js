@@ -18,6 +18,18 @@ video
   .route("/upload")
   .get(getUpload)
   .all(protect)
-  .post(uploadVideo.single("video"), postUpload);
+  .post(
+    uploadVideo.fields([
+      {
+        name: "video",
+        maxCount: 1,
+      },
+      {
+        name: "thumbnail",
+        maxCount: 1,
+      },
+    ]),
+    postUpload
+  );
 
 export default video;

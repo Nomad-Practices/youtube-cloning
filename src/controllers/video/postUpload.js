@@ -7,12 +7,13 @@ export default async (req, res) => {
       user: { _id },
     },
     body: { title, description, hashtags },
-    file,
+    files: { video, thumbnail },
   } = req;
   try {
     const newVideo = await Video.create({
       title,
-      ...(file && { videoUrl: file.path }),
+      ...(video && { videoUrl: video[0].path }),
+      ...(thumbnail && { thumbnailUrl: thumbnail[0].path }),
       description,
       hashtags: Video.formatHashtags(hashtags),
       owner: _id,

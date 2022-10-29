@@ -15,6 +15,7 @@ export default async (req, res) => {
     });
   }
   if (String(video.owner._id) !== String(_id)) {
+    req.flash("error", "You are not the owner of this video");
     return res.status(403).redirect("/");
   }
   await Video.findByIdAndUpdate(id, {
