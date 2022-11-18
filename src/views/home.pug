@@ -1,0 +1,8 @@
+extends base
+include mixins/video          
+
+block content
+    each v in videos
+        +video(v)
+    else
+        li Sorry, Noting founded yet.

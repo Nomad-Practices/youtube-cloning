@@ -1,0 +1,50 @@
+{
+  "name": "youtube-cloning",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "predev:server": "brew services start mongodb-community@6.0",
+    "dev:server": "nodemon",
+    "db:stop": "brew services stop mongodb-community@6.0",
+    "dev:assets": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilovePUBG/youtube-cloning.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilovePUBG/youtube-cloning/issues"
+  },
+  "homepage": "https://github.com/ilovePUBG/youtube-cloning#readme",
+  "dependencies": {
+    "@ffmpeg/core": "^0.11.0",
+    "@ffmpeg/ffmpeg": "^0.11.6",
+    "bcrypt": "^5.0.1",
+    "connect-mongo": "^4.6.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^6.6.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.6.7",
+    "pug": "^3.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.1",
+    "@babel/node": "^7.19.1",
+    "@babel/preset-env": "^7.19.1",
+    "babel-loader": "^8.2.5",
+    "css-loader": "^6.7.1",
+    "mini-css-extract-plugin": "^2.6.1",
+    "nodemon": "^2.0.20",
+    "sass": "^1.55.0",
+    "sass-loader": "^13.1.0",
+    "style-loader": "^3.3.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
